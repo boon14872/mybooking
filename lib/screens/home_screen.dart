@@ -7,21 +7,25 @@ final menus = [
     'title': 'จองรอบการเดินทาง',
     'icon': Icons.airplanemode_active_rounded,
     'color': Colors.blue,
+    'route': '/dateSelect',
   },
   {
     'title': 'การจองของฉัน',
     'icon': Icons.meeting_room,
     'color': Colors.green,
+    'route': '/myBooking',
   },
   {
     'title': 'ประวัติการจอง',
     'icon': Icons.history,
     'color': Colors.orange,
+    'route': '/bookingHistory',
   },
   {
     'title': 'ตั้งค่า',
     'icon': Icons.settings,
     'color': Colors.purple,
+    'route': '/setting',
   },
 ];
 
@@ -111,7 +115,7 @@ class MyHomePage extends StatelessWidget {
   Widget _buildMenu(BuildContext context, Map<String, dynamic> menu) {
     return InkWell(
       onTap: () {
-        // navigate to menu
+        Navigator.pushNamed(context, menu['route']);
       },
       child: Container(
         padding: const EdgeInsets.all(20.0),

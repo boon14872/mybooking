@@ -52,11 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16.0),
 
                 _buildTextField(
-                  label: 'รหัสนักศึกษา หรือ เลขบัตรประชาชน',
+                  label: 'รหัสชื่อผู้ใช้งาน',
                   controller: _idController,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'กรุณาระบุรหัสนักศึกษา หรือ เลขบัตรประชาชน';
+                      return 'กรุณาระบุรหัสผู้ใช้งาน';
                     }
                     return null;
                   },
@@ -136,6 +136,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       validator: validator,
       obscureText: obscureText,
+
+      // if user press enter on keyboard
+      onFieldSubmitted: (_) async {
+        if (_formKey.currentState!.validate()) {
+          setState(() {
+            _isLoading = true;
+          });
+          await _loginUser();
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      },
     );
   }
 

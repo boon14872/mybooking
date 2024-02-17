@@ -53,7 +53,7 @@ class UserProvider with ChangeNotifier {
   }
 }
 
-class TicketProvider with ChangeNotifier {
+class MyTicketProvider with ChangeNotifier {
   late List<Ticket> _tickets = [];
   DateTime? _selectedDate;
   String status = 'pending';
@@ -86,7 +86,7 @@ class TicketProvider with ChangeNotifier {
 
   // list of schedule for selected schedule it will generate from selected date
   List<Map<String, dynamic>> get schedules {
-    final List<Map<String, dynamic>> _schedules = [
+    final List<Map<String, dynamic>> schedules = [
       {
         'id': '1',
         'time': '09:00',
@@ -112,7 +112,7 @@ class TicketProvider with ChangeNotifier {
         'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
       },
     ];
-    return _schedules;
+    return schedules;
   }
 
   // book ticket

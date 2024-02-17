@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooking/provider.dart';
+import 'package:mybooking/screens/dateSelect_screen.dart';
 import 'package:mybooking/screens/home_screen.dart';
 import 'package:mybooking/screens/login_screen.dart';
+import 'package:mybooking/screens/seatSelect_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -10,6 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => MyTicketProvider()),
       ],
       child: const MainApp(),
     ),
@@ -32,6 +35,11 @@ class MainApp extends StatelessWidget {
         {
           '/login': (BuildContext context) => const LoginScreen(),
           '/home': (BuildContext context) => const MyHomePage(),
+          '/dateSelect': (BuildContext context) => const DateSelectScreen(),
+          // '/myBooking': (BuildContext context) => const MyBookingScreen(),
+          // '/bookingHistory': (BuildContext context) => const BookingHistoryScreen(),
+          // '/setting': (BuildContext context) => const SettingScreen(),
+          '/seatSelect': (BuildContext context) => const SeatSelectScreen(),
         },
       ),
       initialRoute: '/login',
