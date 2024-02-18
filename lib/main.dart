@@ -43,8 +43,8 @@ class MainApp extends StatelessWidget {
           '/about': (BuildContext context) => const AboutMeScreen(),
         },
       ),
-      // initialRoute: '/login',
-      home: const MyHomePage(),
+      initialRoute: '/login',
+      home: const LoginScreen(),
     );
   }
 }

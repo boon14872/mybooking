@@ -25,22 +25,27 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          TableCalendar(
-            firstDay: DateTime.now(),
-            lastDay: DateTime.now().add(const Duration(days: 30)),
-            focusedDay: _selectedDate ?? DateTime.now(),
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDate = selectedDay;
-                _fetchSchedulesForDate(selectedDay);
-                ticket.setSelectedDate(selectedDay);
-              });
-            },
-            currentDay: _selectedDate ?? DateTime.now(),
-            // Add a custom header
-            headerStyle: const HeaderStyle(
-              formatButtonVisible: false,
-              titleCentered: true,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: SingleChildScrollView(
+              child: TableCalendar(
+                firstDay: DateTime.now(),
+                lastDay: DateTime.now().add(const Duration(days: 30)),
+                focusedDay: _selectedDate ?? DateTime.now(),
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDate = selectedDay;
+                    _fetchSchedulesForDate(selectedDay);
+                    ticket.setSelectedDate(selectedDay);
+                  });
+                },
+                currentDay: _selectedDate ?? DateTime.now(),
+                // Add a custom header
+                headerStyle: const HeaderStyle(
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 20),
