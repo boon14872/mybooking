@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooking/provider.dart';
-import 'package:mybooking/screens/dateSelect_screen.dart';
+import 'package:mybooking/screens/aboutme_screen.dart';
+import 'package:mybooking/screens/history_screen.dart';
 import 'package:mybooking/screens/home_screen.dart';
 import 'package:mybooking/screens/login_screen.dart';
-import 'package:mybooking/screens/seatSelect_screen.dart';
+import 'package:mybooking/screens/myBooking_screen.dart';
+import 'package:mybooking/screens/stepper_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -35,15 +37,14 @@ class MainApp extends StatelessWidget {
         {
           '/login': (BuildContext context) => const LoginScreen(),
           '/home': (BuildContext context) => const MyHomePage(),
-          '/dateSelect': (BuildContext context) => const DateSelectScreen(),
-          // '/myBooking': (BuildContext context) => const MyBookingScreen(),
-          // '/bookingHistory': (BuildContext context) => const BookingHistoryScreen(),
-          // '/setting': (BuildContext context) => const SettingScreen(),
-          '/seatSelect': (BuildContext context) => const SeatSelectScreen(),
+          '/booking': (BuildContext context) => const StepperScreen(),
+          '/myBooking': (BuildContext context) => const MyBookingScreen(),
+          '/bookingHistory': (BuildContext context) => const HistoryScreen(),
+          '/about': (BuildContext context) => const AboutMeScreen(),
         },
       ),
-      initialRoute: '/login',
-      home: const LoginScreen(),
+      // initialRoute: '/login',
+      home: const MyHomePage(),
     );
   }
 }

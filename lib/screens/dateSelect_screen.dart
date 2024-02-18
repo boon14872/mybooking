@@ -19,11 +19,10 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('เลือกวันที่เดินทาง'),
-      ),
-      body: Column(
+    final ticket = Provider.of<MyTicketProvider>(context);
+
+    return Expanded(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           TableCalendar(
@@ -34,6 +33,7 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
               setState(() {
                 _selectedDate = selectedDay;
                 _fetchSchedulesForDate(selectedDay);
+                ticket.setSelectedDate(selectedDay);
               });
             },
             currentDay: _selectedDate ?? DateTime.now(),
@@ -52,7 +52,18 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
             ),
           ),
           _schedules.isEmpty
-              ? const Text('ไม่มีรอบการเดินทางในวันที่เลือก')
+              ? Container(
+                  padding: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(20),
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: Center(
+                    child: Text(
+                      _selectedDate != null
+                          ? 'ไม่มีรอบการเดินทางในวันที่เลือก'
+                          : 'กรุณาเลือกวันที่เดินทาง',
+                    ),
+                  ),
+                )
               : Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -72,6 +83,7 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
                           onTap: () {
                             setState(() {
                               _selectedSchedule = schedule['time'];
+                              ticket.setSelectedScheduleId(schedule['id']);
                             });
                           },
                           child: Container(
@@ -109,35 +121,35 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
                     ),
                   ),
                 ),
-          const SizedBox(height: 20),
-          _selectedSchedule != null
-              ? ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 24.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0)),
-                    backgroundColor: Colors.blue[300],
-                    surfaceTintColor: Colors.blue[300],
-                  ),
-                  onPressed: () {
-                    if (_selectedDate != null && _selectedSchedule != null) {
-                      _setSelectedDateAndSchedule();
-                      Navigator.pushNamed(context, '/seatSelect');
-                    }
-                  },
-                  child: const Text(
-                    'ต่อไป',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              : const ElevatedButton(
-                  onPressed: null,
-                  child: Text(
-                    'ต่อไป',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+          // const SizedBox(height: 20),
+          // _selectedSchedule != null
+          //     ? ElevatedButton(
+          //         style: ElevatedButton.styleFrom(
+          //           padding: const EdgeInsets.symmetric(
+          //               vertical: 16.0, horizontal: 24.0),
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(8.0)),
+          //           backgroundColor: Colors.blue[300],
+          //           surfaceTintColor: Colors.blue[300],
+          //         ),
+          //         onPressed: () {
+          //           if (_selectedDate != null && _selectedSchedule != null) {
+          //             _setSelectedDateAndSchedule();
+          //             Navigator.pushNamed(context, '/seatSelect');
+          //           }
+          //         },
+          //         child: const Text(
+          //           'ต่อไป',
+          //           style: TextStyle(color: Colors.white),
+          //         ),
+          //       )
+          //     : const ElevatedButton(
+          //         onPressed: null,
+          //         child: Text(
+          //           'ต่อไป',
+          //           style: TextStyle(color: Colors.white),
+          //         ),
+          //       ),
         ],
       ),
     );
@@ -150,26 +162,11 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
 
       // Add a condition to check if the selected date is an odd day
       if (selectedDate.day.isOdd) {
-        _schedules = [
-          ...ticket.schedules,
-          {
-            'id': '99',
-            'time': '23:00',
-            'price': 3990,
-            'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
-          }
-        ].sublist(1);
+        _schedules = ticket.schedules.sublist(1);
       } else {
-        // _schedules = ticket.schedules remove first schedule
-        _schedules = ticket.schedules;
+        // _schedules = ticket.schedules; remove last schedule
+        _schedules = ticket.schedules.sublist(0, 4);
       }
     });
-  }
-
-  // funtion to set selected date and schedule to ticket provider
-  void _setSelectedDateAndSchedule() {
-    final ticket = Provider.of<MyTicketProvider>(context, listen: false);
-    ticket.setSelectedDate(_selectedDate!);
-    ticket.setSelectedScheduleId(_selectedSchedule!);
   }
 }

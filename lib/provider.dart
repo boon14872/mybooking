@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mybooking/interfaces/ticket.dart';
 import 'package:mybooking/interfaces/user.dart';
+import 'package:mybooking/screens/seatSelect_screen.dart';
 
 class UserProvider with ChangeNotifier {
   late User _user = User(
@@ -54,17 +55,126 @@ class UserProvider with ChangeNotifier {
 }
 
 class MyTicketProvider with ChangeNotifier {
-  late List<Ticket> _tickets = [];
+  late final List<Ticket> _tickets = [
+    Ticket(
+      id: 1,
+      userId: '1',
+      scheduleId: '1',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      departureStation: 'Bangkok',
+      arrivalStation: 'Chiang Mai',
+      status: 'paid',
+      seat: <SeatNumber>{
+        const SeatNumber(
+          rowI: 1,
+          colI: 1,
+        ),
+        const SeatNumber(
+          rowI: 1,
+          colI: 2,
+        ),
+      },
+    ),
+    Ticket(
+      id: 2,
+      userId: '1',
+      scheduleId: '2',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      departureStation: 'Spacex Boca Chica TX',
+      arrivalStation: 'Luna Gateway Station',
+      status: 'pending',
+      seat: <SeatNumber>{
+        const SeatNumber(
+          rowI: 1,
+          colI: 3,
+        ),
+        const SeatNumber(
+          rowI: 1,
+          colI: 4,
+        ),
+      },
+    ),
+    Ticket(
+      id: 3,
+      userId: '1',
+      scheduleId: '3',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      departureStation: 'Spacex Boca Chica TX',
+      arrivalStation: 'Luna Gateway Station',
+      status: 'paid',
+      seat: <SeatNumber>{
+        const SeatNumber(
+          rowI: 1,
+          colI: 5,
+        ),
+        const SeatNumber(
+          rowI: 1,
+          colI: 6,
+        ),
+      },
+    ),
+
+    // used ticket
+    Ticket(
+      id: 4,
+      userId: '1',
+      scheduleId: '4',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      departureStation: 'Spacex Boca Chica TX',
+      arrivalStation: 'Luna Gateway Station',
+      status: 'used',
+      seat: <SeatNumber>{
+        const SeatNumber(
+          rowI: 1,
+          colI: 7,
+        ),
+        const SeatNumber(
+          rowI: 1,
+          colI: 8,
+        ),
+      },
+    ),
+
+    // canceled ticket
+    Ticket(
+      id: 5,
+      userId: '1',
+      scheduleId: '5',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      departureStation: 'Spacex Boca Chica TX',
+      arrivalStation: 'Luna Gateway Station',
+      status: 'canceled',
+      seat: <SeatNumber>{
+        const SeatNumber(
+          rowI: 1,
+          colI: 9,
+        ),
+        const SeatNumber(
+          rowI: 1,
+          colI: 10,
+        ),
+      },
+    ),
+  ];
   DateTime? _selectedDate;
   String status = 'pending';
-  String? _selectedSeat;
+  Set<SeatNumber>? _selectedSeat;
   String? _selectedScheduleId;
+  String? _departureStation;
+  String? _arrivalStation;
 
   // get set
   List<Ticket> get tickets => _tickets;
   DateTime? get selectedDate => _selectedDate;
-  String? get selectedSeat => _selectedSeat;
+  Set<SeatNumber>? get selectedSeat => _selectedSeat;
   String? get selectedScheduleId => _selectedScheduleId;
+  String? get departureStation => _departureStation;
+  String? get arrivalStation => _arrivalStation;
 
   // set selected date
   void setSelectedDate(DateTime date) {
@@ -73,7 +183,7 @@ class MyTicketProvider with ChangeNotifier {
   }
 
   // set selected seat
-  void setSelectedSeat(String seat) {
+  void setSelectedSeat(Set<SeatNumber> seat) {
     _selectedSeat = seat;
     notifyListeners();
   }
@@ -84,6 +194,18 @@ class MyTicketProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // set selected station
+  void setStation({String? departure, String? arrival}) {
+    if (departure != null) {
+      _departureStation = departure;
+    }
+    if (arrival != null) {
+      _arrivalStation = arrival;
+    }
+
+    notifyListeners();
+  }
+
   // list of schedule for selected schedule it will generate from selected date
   List<Map<String, dynamic>> get schedules {
     final List<Map<String, dynamic>> schedules = [
@@ -91,42 +213,42 @@ class MyTicketProvider with ChangeNotifier {
         'id': '1',
         'time': '09:00',
         'price': 3000,
-        'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
       },
       {
         'id': '2',
         'time': '13:00',
         'price': 3299,
-        'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
       },
       {
         'id': '3',
         'time': '17:00',
         'price': 3990,
-        'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
       },
       {
         'id': '4',
         'time': '21:00',
         'price': 3890,
-        'seats': ['A1', 'A2', 'A3', 'A4', 'A5'],
+      },
+      {
+        'id': '5',
+        'time': '23:00',
+        'price': 3990,
       },
     ];
     return schedules;
   }
 
   // book ticket
-  Future<Ticket> bookTicket(String userId) async {
-    final Ticket ticket = Ticket(
-      id: 1,
-      userId: userId,
-      seat: _selectedSeat!,
-      scheduleId: _selectedScheduleId!,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
-    _tickets.add(ticket);
+  Ticket bookTicket(Ticket tick) {
+    _tickets.add(tick);
+    // reset all
+    _selectedDate = null;
+    _selectedSeat = null;
+    _selectedScheduleId = null;
+    _departureStation = null;
+    _arrivalStation = null;
+
     notifyListeners();
-    return ticket;
+    return tick;
   }
 }

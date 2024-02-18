@@ -7,7 +7,7 @@ final menus = [
     'title': 'จองรอบการเดินทาง',
     'icon': Icons.airplanemode_active_rounded,
     'color': Colors.blue,
-    'route': '/dateSelect',
+    'route': '/booking',
   },
   {
     'title': 'การจองของฉัน',
@@ -22,10 +22,10 @@ final menus = [
     'route': '/bookingHistory',
   },
   {
-    'title': 'ตั้งค่า',
-    'icon': Icons.settings,
+    'title': 'ข้อมูลส่วนตัว',
+    'icon': Icons.account_circle_rounded,
     'color': Colors.purple,
-    'route': '/setting',
+    'route': '/about',
   },
 ];
 

@@ -14,7 +14,7 @@ class User {
     required this.name,
     required this.email,
     required this.password,
-    this.avatar = 'https://via.placeholder.com/150',
+    this.avatar = 'https://via.placeholder.com/500',
     required this.createdAt,
     required this.updatedAt,
   });
