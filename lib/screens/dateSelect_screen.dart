@@ -21,63 +21,68 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
   Widget build(BuildContext context) {
     final ticket = Provider.of<MyTicketProvider>(context);
 
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: SingleChildScrollView(
-              child: TableCalendar(
-                firstDay: DateTime.now(),
-                lastDay: DateTime.now().add(const Duration(days: 30)),
-                focusedDay: _selectedDate ?? DateTime.now(),
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDate = selectedDay;
-                    _fetchSchedulesForDate(selectedDay);
-                    ticket.setSelectedDate(selectedDay);
-                  });
-                },
-                currentDay: _selectedDate ?? DateTime.now(),
-                // Add a custom header
-                headerStyle: const HeaderStyle(
-                  formatButtonVisible: false,
-                  titleCentered: true,
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: SingleChildScrollView(
+                child: TableCalendar(
+                  firstDay: DateTime.now(),
+                  lastDay: DateTime.now().add(const Duration(days: 30)),
+                  focusedDay: _selectedDate ?? DateTime.now(),
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDate = selectedDay;
+                      _fetchSchedulesForDate(selectedDay);
+                      ticket.setSelectedDate(selectedDay);
+                    });
+                  },
+                  currentDay: _selectedDate ?? DateTime.now(),
+                  // Add a custom header
+                  headerStyle: const HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'เลือกรอบการเดินทาง',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 20),
+            const Text(
+              'เลือกรอบการเดินทาง',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          _schedules.isEmpty
-              ? Container(
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  child: Center(
-                    child: Text(
-                      _selectedDate != null
-                          ? 'ไม่มีรอบการเดินทางในวันที่เลือก'
-                          : 'กรุณาเลือกวันที่เดินทาง',
-                    ),
+            if (_schedules.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Center(
+                  child: Text(
+                    _selectedDate != null
+                        ? 'ไม่มีรอบการเดินทางในวันที่เลือก'
+                        : 'กรุณาเลือกวันที่เดินทาง',
                   ),
-                )
-              : Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey[200],
-                  ),
-                  padding: const EdgeInsets.all(20),
-                  margin: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: Expanded(
+                ),
+              )
+            else
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[200],
+                ),
+                padding: const EdgeInsets.all(20),
+                margin: const EdgeInsets.all(20),
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.4,
                     child: ListView.separated(
                       padding: const EdgeInsets.all(20),
                       itemCount: _schedules.length,
@@ -126,36 +131,38 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
                     ),
                   ),
                 ),
-          // const SizedBox(height: 20),
-          // _selectedSchedule != null
-          //     ? ElevatedButton(
-          //         style: ElevatedButton.styleFrom(
-          //           padding: const EdgeInsets.symmetric(
-          //               vertical: 16.0, horizontal: 24.0),
-          //           shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(8.0)),
-          //           backgroundColor: Colors.blue[300],
-          //           surfaceTintColor: Colors.blue[300],
-          //         ),
-          //         onPressed: () {
-          //           if (_selectedDate != null && _selectedSchedule != null) {
-          //             _setSelectedDateAndSchedule();
-          //             Navigator.pushNamed(context, '/seatSelect');
-          //           }
-          //         },
-          //         child: const Text(
-          //           'ต่อไป',
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       )
-          //     : const ElevatedButton(
-          //         onPressed: null,
-          //         child: Text(
-          //           'ต่อไป',
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       ),
-        ],
+              ),
+            // const SizedBox(height: 20),
+            // _selectedSchedule != null
+            //     ? ElevatedButton(
+            //         style: ElevatedButton.styleFrom(
+            //           padding: const EdgeInsets.symmetric(
+            //               vertical: 16.0, horizontal: 24.0),
+            //           shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(8.0)),
+            //           backgroundColor: Colors.blue[300],
+            //           surfaceTintColor: Colors.blue[300],
+            //         ),
+            //         onPressed: () {
+            //           if (_selectedDate != null && _selectedSchedule != null) {
+            //             _setSelectedDateAndSchedule();
+            //             Navigator.pushNamed(context, '/seatSelect');
+            //           }
+            //         },
+            //         child: const Text(
+            //           'ต่อไป',
+            //           style: TextStyle(color: Colors.white),
+            //         ),
+            //       )
+            //     : const ElevatedButton(
+            //         onPressed: null,
+            //         child: Text(
+            //           'ต่อไป',
+            //           style: TextStyle(color: Colors.white),
+            //         ),
+            //       ),
+          ],
+        ),
       ),
     );
   }

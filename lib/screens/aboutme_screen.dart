@@ -17,7 +17,7 @@ class AboutMeScreen extends StatelessWidget {
       body: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: const AssetImage('images/bg.jpg'),
+            image: const AssetImage('assets/images/bg.jpg'),
             fit: BoxFit.fill,
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.5), BlendMode.dstATop),

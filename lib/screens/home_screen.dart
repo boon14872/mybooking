@@ -40,7 +40,7 @@ class MyHomePage extends StatelessWidget {
       body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg.jpg'),
+            image: AssetImage('assets/images/bg.jpg'),
             fit: BoxFit.fill,
             opacity: 0.5,
           ),
@@ -57,7 +57,7 @@ class MyHomePage extends StatelessWidget {
                   children: [
                     // app logo
                     Image.asset(
-                      'images/logo.png',
+                      'assets/images/logo.png',
                       height: MediaQuery.of(context).size.height * 0.2,
                     ),
                     const SizedBox(width: 20.0),

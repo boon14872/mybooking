@@ -4,10 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mybooking/provider.dart';
 import 'package:provider/provider.dart';
 
-const pathDisabledSeat = 'svg/disable.svg';
-const pathSelectedSeat = 'svg/vip.svg';
-const pathSoldSeat = 'svg/sold.svg';
-const pathUnSelectedSeat = 'svg/available.svg';
+const pathDisabledSeat = 'assets/svg/disable.svg';
+const pathSelectedSeat = 'assets/svg/vip.svg';
+const pathSoldSeat = 'assets/svg/sold.svg';
+const pathUnSelectedSeat = 'assets/svg/available.svg';
+
+// const pathDisabledSeat = 'svg/disable.svg';
+// const pathSelectedSeat = 'svg/vip.svg';
+// const pathSoldSeat = 'svg/sold.svg';
+// const pathUnSelectedSeat = 'svg/available.svg';
 
 const rows = 10;
 const cols = 4;
@@ -48,8 +53,9 @@ class _SeatSelectScreenState extends State<SeatSelectScreen> {
 
     final ticket = Provider.of<MyTicketProvider>(context);
 
-    return Expanded(
-      child: SafeArea(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -66,31 +72,28 @@ class _SeatSelectScreenState extends State<SeatSelectScreen> {
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16),
-              child: Flexible(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: 500,
-                  child: SeatLayoutWidget(
-                    onSeatStateChanged: (rowI, colI, seatState) {
-                      if (seatState == SeatState.selected) {
-                        selectedSeats.add(SeatNumber(rowI: rowI, colI: colI));
-                      } else {
-                        selectedSeats
-                            .remove(SeatNumber(rowI: rowI, colI: colI));
-                      }
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: SingleChildScrollView(
+                child: SeatLayoutWidget(
+                  onSeatStateChanged: (rowI, colI, seatState) {
+                    if (seatState == SeatState.selected) {
+                      selectedSeats.add(SeatNumber(rowI: rowI, colI: colI));
+                    } else {
+                      selectedSeats.remove(SeatNumber(rowI: rowI, colI: colI));
+                    }
 
-                      ticket.setSelectedSeat(selectedSeats);
-                    },
-                    stateModel: SeatLayoutStateModel(
-                      pathDisabledSeat: pathDisabledSeat,
-                      pathSelectedSeat: pathSelectedSeat,
-                      pathSoldSeat: pathSoldSeat,
-                      pathUnSelectedSeat: pathUnSelectedSeat,
-                      rows: rows,
-                      cols: cols,
-                      seatSvgSize: 50,
-                      currentSeatsState: generateSeats(),
-                    ),
+                    ticket.setSelectedSeat(selectedSeats);
+                  },
+                  stateModel: SeatLayoutStateModel(
+                    pathDisabledSeat: pathDisabledSeat,
+                    pathSelectedSeat: pathSelectedSeat,
+                    pathSoldSeat: pathSoldSeat,
+                    pathUnSelectedSeat: pathUnSelectedSeat,
+                    rows: rows,
+                    cols: cols,
+                    seatSvgSize: 50,
+                    currentSeatsState: generateSeats(),
                   ),
                 ),
               ),

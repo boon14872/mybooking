@@ -65,7 +65,7 @@ class _StepperScreenState extends State<StepperScreen> {
       body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/bg.jpg'),
+            image: AssetImage('assets/images/bg.jpg'),
             fit: BoxFit.fill,
             opacity: 0.2,
           ),
@@ -150,7 +150,7 @@ class _StepperScreenState extends State<StepperScreen> {
                           ? Colors.green
                           : Colors.grey,
                   image: const DecorationImage(
-                    image: AssetImage('images/moon.webp'),
+                    image: AssetImage('assets/images/moon.webp'),
                     fit: BoxFit.cover,
                     opacity: 0.3,
                   ),
